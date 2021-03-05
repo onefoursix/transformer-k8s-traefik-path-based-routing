@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  namespace: ns1
+  name: transformer
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    ingress.kubernetes.io/ssl-redirect: "false"
+    traefik.frontend.rule.type: PathPrefixStrip
+spec:
+  tls:
+    - hosts:
+      - <hostname>
+      secretName: streamsets-tls
+  rules:
+    - host: <hostname>
+      http:
+        paths:
+          - path: /transformer
+            backend:
+              serviceName: transformer
+              servicePort: 19630
